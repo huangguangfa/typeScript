@@ -3,8 +3,8 @@
 ```ts
 type isTwo<T> = T extends 2 ? true: false;
 
-type res = isTwo<1>;
-type res2 = isTwo<2>;
+type res = isTwo<1>; // false 1 !== 2
+type res2 = isTwo<2>; // true 2 === 2
 ```
 > ``` 推导：infer```
 
@@ -48,7 +48,7 @@ type res = {
     b:[1,2,3]
 }
 
-// 除了值可以变化，索引也可以做变化，用 as 运算符，叫做重映射。
+// 除了值可以变化，索引也可以做变化，用 as 运算符，叫做重映射
 type MapType<T> = {
     [
         Key in keyof T 
@@ -56,3 +56,7 @@ type MapType<T> = {
     ]: [T[Key], T[Key], T[Key]]
 }
 ```
+
+```总结 ```
+
+> TypeScript 支持条件、推导、联合、交叉等运算逻辑，还有对联合类型做映射。 这些逻辑是针对类型参数，也就是泛型（类型参数）来说的，传入类型参数，经过一系列类型运算逻辑后，返回新的类型的类型就叫做高级类型，如果是静态的值，直接算出结果即可，没必要写类型逻辑。
