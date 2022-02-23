@@ -25,3 +25,8 @@ type startWithResult = StartWith<'guanga fa','guang'>
 type EndWith<Str extends string, EndFix extends string> = Str extends `${string}${EndFix}` ? true : false;
 type EndWithResult = EndWith<'guang fa','fa'>
 // 字符串的替换
+// type ReplaceStr< 
+//     Str extends string,
+//     From extends string,
+//     To extends string
+//     > = Str extends `${}`
