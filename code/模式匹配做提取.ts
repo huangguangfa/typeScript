@@ -25,8 +25,32 @@ type startWithResult = StartWith<'guanga fa','guang'>
 type EndWith<Str extends string, EndFix extends string> = Str extends `${string}${EndFix}` ? true : false;
 type EndWithResult = EndWith<'guang fa','fa'>
 // 字符串的替换
-// type ReplaceStr< 
-//     Str extends string,
-//     From extends string,
-//     To extends string
-//     > = Str extends `${}`
+type ReplaceStr< 
+    Str extends string,
+    From extends string,
+    To extends string
+    > = Str extends `${infer Prefix}${From}${infer Suffix}`
+    ? `${Prefix}${To}${Suffix}` : Str
+// huanggf
+type ReplaceStrResult = ReplaceStr<'huangguangfa','guangfa','gf'>
+
+// 使用递归-去除字符串空格  
+type TrimStrRight<Str extends string> = 
+    Str extends `${infer Rest}${' ' | '\n' | '\t'}` 
+        ? TrimStrRight<Rest> : Str;
+ // 右边       
+type TrimStrLeft<Str extends string> = 
+    Str extends `${' ' | '\n' | '\t'}${infer Rest}` 
+            ? TrimStrLeft<Rest> : Str;
+// 组合Trim
+type TrimStr<Str extends string> =TrimStrRight<TrimStrLeft<Str>>;
+
+/* 函数 */
+
+
+// 提取返回值类型
+type GetReturnType<Func extends Function> = 
+    Func extends (...args:unknown[]) => infer ReturnType ? ReturnType : never;
+
+type ReturnTypeResult = GetReturnType<(a) => 'name'>
+
