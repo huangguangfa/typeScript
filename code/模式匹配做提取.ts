@@ -54,3 +54,5 @@ type GetReturnType<Func extends Function> =
 
 type ReturnTypeResult = GetReturnType<(a) => 'name'>
 
+
+
