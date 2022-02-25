@@ -39,3 +39,10 @@ type GetCapitalizeLineStrResult = CapitalizeLineStr<"guang_fa_huang">
 //递归 substr 删除里面某个字符串
 type DropSubStr<Str extends string, Substr extends string> = Str extends `${infer First}${Substr}${infer Suffix}` ? DropSubStr<`${First}${Suffix}`,Substr> : Str;
 type SubStrResult = DropSubStr<"abcabcabc","b"> // 删除所有的b => acacac
+
+
+/*************函数*************/
+
+type AppenArgument<Fun extends Function, Arg> = 
+    Fun extends (...args: infer Args) => infer ReturnType ?
+        (...args:[...Args, Arg]) => ReturnType : never;
