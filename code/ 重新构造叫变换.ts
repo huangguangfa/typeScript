@@ -15,7 +15,7 @@ type Zip<One extends [unknown, unknown], Other extends [unknown, unknown]> =
         ? Other extends [infer OtherFirst, infer OtherSecond]
             ? [[OneFirst, OtherFirst], [OneSecond, OtherSecond]] :[] 
                 : [];
-// 递归形式（支持任意）
+// 递归形式（支持任意个数）
 type Zip2<One extends unknown[], Other extends unknown[]> = 
     One extends [infer OneFirst, ...infer OneRest]
         ? Other extends [infer OtherFirst, ...infer OtherRest]
@@ -24,3 +24,25 @@ type Zip2<One extends unknown[], Other extends unknown[]> =
 
 
 /*************字符串*************/
+
+// 把字符串第一个变成大写
+type CapitalizeStr<Str extends string> = Str extends `${infer First}${infer Rest}` 
+    ? `${Uppercase<First>}${Rest}` : Str;
+type GetCapitalizeStr = CapitalizeStr<'huang'>
+
+// 递归 把字符串guang_fa_huang => guangFaHuang
+type CapitalizeLineStr<Str extends string> = Str extends `${infer Left}_${infer Right}${infer Rest}` 
+    ? `${Left}${Uppercase<Right>}${CapitalizeLineStr<Rest>}`
+    : Str
+type GetCapitalizeLineStrResult = CapitalizeLineStr<"guang_fa_huang">
+
+//递归 substr 删除里面某个字符串
+type DropSubStr<Str extends string, Substr extends string> = Str extends `${infer First}${Substr}${infer Suffix}` ? DropSubStr<`${First}${Suffix}`,Substr> : Str;
+type SubStrResult = DropSubStr<"abcabcabc","b"> // 删除所有的b => acacac
+
+
+/*************函数*************/
+
+type AppenArgument<Fun extends Function, Arg> = 
+    Fun extends (...args: infer Args) => infer ReturnType ?
+        (...args:[...Args, Arg]) => ReturnType : never;

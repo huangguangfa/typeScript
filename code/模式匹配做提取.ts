@@ -20,7 +20,7 @@ type GetMoreResult = GetMore<[1,2,3]>
 
 // 判断字符串是否以某个前缀开头
 type StartWith<Str extends string, Prefix extends string> = Str extends `${Prefix}${string}` ? true : false;
-type startWithResult = StartWith<'guanga fa','guang'>
+type startWithResult = StartWith<'guang fa','guang'>
 // 判断字符串是否以某个字符串结尾
 type EndWith<Str extends string, EndFix extends string> = Str extends `${string}${EndFix}` ? true : false;
 type EndWithResult = EndWith<'guang fa','fa'>
@@ -41,7 +41,7 @@ type TrimStrRight<Str extends string> =
  // 右边       
 type TrimStrLeft<Str extends string> = 
     Str extends `${' ' | '\n' | '\t'}${infer Rest}` 
-            ? TrimStrLeft<Rest> : Str;
+        ? TrimStrLeft<Rest> : Str;
 // 组合Trim
 type TrimStr<Str extends string> =TrimStrRight<TrimStrLeft<Str>>;
 
