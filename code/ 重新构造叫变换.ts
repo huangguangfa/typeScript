@@ -7,9 +7,9 @@ type getPushResult = Push<tuple, 1>;// [1,2,3,1]
 
 // 合并
 type tuple1 = [1,2];
-type tuple2 = ['guang', 'dong'];
+type tuple2 = ['guang', 'fa'];
 //把它们合并成这样的元组：
-type tuple3 = [[1, 'guang'], [2, 'dong']];
+type tuple3 = [[1, 'guang'], [2, 'fa']];
 type Zip<One extends [unknown, unknown], Other extends [unknown, unknown]> = 
     One extends [infer OneFirst, infer OneSecond]
         ? Other extends [infer OtherFirst, infer OtherSecond]
