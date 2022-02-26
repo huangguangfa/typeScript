@@ -46,3 +46,22 @@ type SubStrResult = DropSubStr<"abcabcabc","b"> // 删除所有的b => acacac
 type AppenArgument<Fun extends Function, Arg> = 
     Fun extends (...args: infer Args) => infer ReturnType ?
         (...args:[...Args, Arg]) => ReturnType : never;
+
+
+/*************索引类型的重新构造*************/
+
+// 把string的key换成大写
+type obj = {
+    name:"张三",
+    age:18,
+    getSex:() => '1',
+    isMan:true,
+    1:1
+}
+
+type UppercaseKey<Obj extends object> = { 
+    // as重映射
+    [Key in keyof Obj as Uppercase<Key & string>]: Obj[Key]
+}
+type getUppercaseKeyRes = UppercaseKey<obj>
+    
