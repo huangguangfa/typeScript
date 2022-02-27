@@ -58,3 +58,15 @@ type replaceAll<
         : Str;
 // huanGGuanGfa
 type GetReplaceAllRes = replaceAll<'huangguangfa','g','G'>
+
+// 不确定长度的字符串的提取和联合类型的构造
+type StringToUnion< Str extends string> = Str extends `${infer First}${infer Rest}` ? First | StringToUnion<Rest> : never;
+type GetStringToUnionRes = StringToUnion<'huangguangfa'>
+
+/****************** 对象 *******************************************************/
+
+type ToReadonly<T> =  {
+    readonly [Key in keyof T]: T[Key];
+}
+
+
