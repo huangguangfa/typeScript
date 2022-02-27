@@ -45,3 +45,16 @@ type BuildArray<
     Item = unknown,
     Arr extends unknown[] = []> =  Arr["length"] extends Length ? Arr : BuildArray<Length, Item, [...Arr, Item]>
 
+
+/****************** 字符串 *******************************************************/
+
+// 把字符串出现过的g换成大写的G
+type replaceAll<
+    Str extends string,
+    From extends string,
+    To extends string
+    > = Str extends `${infer Left}${From}${infer Right}`
+        ? `${Left}${To}${replaceAll<Right, From, To>}`
+        : Str;
+// huanGGuanGfa
+type GetReplaceAllRes = replaceAll<'huangguangfa','g','G'>
