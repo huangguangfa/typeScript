@@ -82,3 +82,38 @@ type ClassPublicRes = ClassPublicProps<Dong>
 // 可选索引的值为 undefined 和值类型的联合类型。可以用来过滤可选索引，反过来也可以过滤非可选索引。
 // 索引类型的索引一般为 string 类型，而可索引签名不是，可以用这个特性过滤掉可索引签名。
 // keyof 只能拿到 class 的 public 的索引，可以用来过滤出 public 的属性。
+
+
+// 练习parseQueryString
+type str = 'a=1&b=2&c=3'; //a=1&b=2&c=3 => { a:1, b:2, c:3}
+// a=1 => {a:1}
+type ParseParam<Param extends string> = Param extends `${infer Key}=${infer Value}`
+    ?{
+        [K in Key]:Value
+    }:{}
+
+type MergeValues<One, Other> = 
+    One extends Other 
+        ? One
+        : Other extends unknown[]
+            ? [One, ...Other]
+            : [One, Other];
+
+type MergeParams<
+    OneParam extends Record<string, any>,
+    OtherParam extends Record<string, any>
+> = {
+  [Key in keyof OneParam | keyof OtherParam]: 
+    Key extends keyof OneParam
+        ? Key extends keyof OtherParam
+            ? MergeValues<OneParam[Key], OtherParam[Key]>
+            : OneParam[Key]
+        : Key extends keyof OtherParam 
+            ? OtherParam[Key] 
+            : never
+}
+// a=1&b=2&c=3 => a=1 b=2 c=3
+type ParseQueryString<Str extends string> = 
+    Str extends `${infer Param}&${infer Rest}`
+        ? MergeParams<ParseParam<Param>, ParseQueryString<Rest>>
+        : ParseParam<Str>;
